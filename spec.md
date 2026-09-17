@@ -195,69 +195,93 @@ Trong dữ liệu hội thoại VLearn tồn tại những trường hợp học
 
 ### 2.1. Bảng impact các ứng viên
 
-| Ứng viên | Pain giải quyết | Bao nhiêu người/case | Tần suất | Tốn gì mỗi lần | Khả thi trong hackathon |
-| --- | --- | ---: | --- | --- | --- |
-| **A. Chọn mức giải thích** | Câu trả lời quá khó hoặc quá cơ bản | 744/10.427 lượt không phải preset có tín hiệu điều chỉnh | 7,14% | Phải tự viết thêm yêu cầu hoặc tìm nguồn khác | **Cao** |
-| **B. AI tự suy đoán trình độ từ lịch sử chat** | User không cần tự chọn level | Chưa đủ evidence | Liên tục | Nguy cơ AI đoán sai trình độ | Trung bình |
-| **C. Tutor tự hỏi câu chẩn đoán trước mỗi câu trả lời** | Xác định nền tảng người học trước khi giải thích | Chưa đủ evidence | Mỗi topic mới | Thêm 1+ lượt interaction | Cao |
-| **D. Chỉ thêm nút “Đơn giản hơn / Chi tiết hơn” sau câu trả lời** | Giảm công sức viết prompt điều chỉnh | Cùng tập 744 lượt có tín hiệu điều chỉnh | 7,14% trên tập không preset | Vẫn phải nhận output sai level trước | Rất cao |
+| Ứng viên | Pain / signal được giải quyết | Evidence / số case liên quan | Friction thêm | Cost-of-error | Khả thi hackathon | Ghi chú |
+| --- | --- | --- | --- | --- | --- | --- |
+| **A. Explicit selector trước câu hỏi** | Câu trả lời quá khó/quá cơ bản so với trình độ | **744/10.427** lượt không-preset (7,14%) có tín hiệu adaptation (xem Evidence-based metrics) | +1 thao tác chọn level; có default Intermediate nếu không chọn | Thấp — user tự sửa level được, không cần learner history | **Cao** | Không cần history/inference/classifier; dễ test 3 level |
+| **B. AI tự suy đoán level từ lịch sử chat** | User không cần tự chọn level | Chưa có evidence định lượng trực tiếp về độ chính xác của inference | Không thêm lượt, nhưng cần learner history | Cao — inference sai → answer sai level mà user không chủ động chọn | Trung bình | Thêm một decision AI mới + cơ chế eval inference quality |
+| **C. Diagnostic question trước khi trả lời** | Xác định nền tảng người học trước khi giải thích | Chưa có evidence rằng user cần diagnostic tự động | Tối thiểu **+1 interaction** (hệ thống hỏi + user trả lời) trước answer | Trung bình — thêm friction để giảm mismatch | Cao | Friction lặp lại ở mỗi calibration event |
+| **D. Nút “Dễ hơn / Sâu hơn” sau câu trả lời** | Giảm công sức viết prompt điều chỉnh sau khi nhận answer không phù hợp | Cùng tập **744** signal adaptation-related | Không thêm lượt trước answer; chỉ xuất hiện sau answer | Cao ở first answer — không ngăn được mismatch, chỉ recovery sau | **Rất cao** | Giữ làm secondary recovery trong MVP |
+
+**Evidence-based metrics (từ mining, xem `evidence/mining-vlearn.md`):**
+
+- 744 / 10.427 = **7,14%** lượt không-preset có tín hiệu điều chỉnh cách giải thích;
+- Simplify **134**; Deepen **184**; Example **259**; Re-explanation **168**; Brevity **57**.
+
+**Design-derived properties (đặc tính flow, không phải số liệu khảo sát):**
+
+- Explicit selector **không cần learner history**;
+- Diagnostic flow thêm **≥1 interaction** trước answer;
+- Post-answer correction luôn xảy ra **sau answer đầu tiên**;
+- Automatic inference **cần history** và một cơ chế đánh giá inference correctness (repo hiện chưa có).
 
 ---
 
-### 2.2. Ứng viên đã loại
+### 2.2. Ứng viên đã loại (và phương án giữ làm secondary)
 
-#### B — AI tự suy đoán trình độ từ lịch sử
+#### B — AI tự suy đoán trình độ từ lịch sử chat
 
 **Không chọn cho MVP vì:**
 
-- cần đủ lịch sử hội thoại;
-- khó biết suy đoán có chính xác hay không;
-- người học có thể hiểu sâu chủ đề A nhưng mới học chủ đề B;
-- AI có thể gán nhãn trình độ sai;
-- khó giải thích tại sao hệ thống coi user là beginner/advanced;
-- scope kỹ thuật và evaluation lớn hơn thời gian hackathon.
+- repo chưa có evidence định lượng trực tiếp về độ chính xác của history-based inference;
+- cần learner history (không sẵn có cho user mới/gắn nhãn ẩn danh);
+- cùng một user có thể beginner ở topic A nhưng advanced ở topic B — "label trình độ" không ổn định;
+- thêm một decision AI mới cần đánh giá riêng (inference quality) thay vì chỉ đánh giá style/depth;
+- cost-of-error cao hơn: inference sai → answer đầu tiên sai level mà user không chủ động chọn, khó giải thích vì sao.
 
 Có thể xem đây là hướng phát triển sau MVP.
 
 ---
 
-#### C — Tutor luôn hỏi câu chẩn đoán
+#### C — Tutor hỏi câu chẩn đoán trước mỗi câu trả lời
 
 **Không chọn cho MVP vì:**
 
-- thêm friction trước mỗi câu hỏi;
-- làm tăng số lượt hội thoại;
-- không phù hợp với câu hỏi rất đơn giản;
-- user đã biết rõ nhu cầu của mình nhưng vẫn phải trả lời thêm.
+- thêm **tối thiểu +1 interaction** (hệ thống hỏi + user trả lời) trước khi có answer;
+- friction này lặp lại ở mỗi calibration event, kể cả câu hỏi rất đơn giản;
+- chưa có evidence rằng user cần diagnostic tự động: mining chỉ cho tín hiệu adaptation, không cho tín hiệu "cần hỏi ngược";
+- scope lớn hơn explicit selector (thêm bước chọn câu hỏi chẩn đoán và logic điều kiện).
 
 Có thể sử dụng ở phiên bản sau khi user không chọn level.
 
 ---
 
+#### D — Nút “Dễ hơn / Sâu hơn” sau câu trả lời (KHÔNG loại hoàn toàn)
+
+Không chọn D làm **primary intervention** vì nó chỉ sửa sau khi user đã nhận answer đầu tiên — không ngăn được mismatch ở first answer.
+
+Nhưng D được **giữ làm secondary recovery control** trong MVP (prototype hiện có `Giải thích dễ hơn` và `Đào sâu hơn`), vì cost triển khai rất thấp và nó rút ngắn đường sửa ngay sau khi xảy ra mismatch.
+
+---
+
 ### 2.3. Ứng viên được chọn
 
-**A — User chủ động chọn mức giải thích.**
+**A — Explicit Explanation Level Selector (primary intervention).**
 
-Ba mức:
+Ba mức: Mới làm quen / Đã có nền tảng / Muốn đào sâu.
 
-1. **Mới làm quen**
-2. **Đã có nền tảng**
-3. **Muốn đào sâu**
+**Lý do chọn, theo từng tiêu chí:**
 
-**Lý do chọn:**
+**Evidence:**
+- Mining cho thấy **744/10.427 lượt không-preset (7,14%)** có tín hiệu liên quan đến việc cần thay đổi cách giải thích (xem `evidence/mining-vlearn.md`).
 
-- người học giữ quyền kiểm soát;
-- không cần AI đoán trình độ;
-- có thể thay đổi level theo từng chủ đề;
-- scope nhỏ, triển khai được trong hackathon;
-- dễ tạo A/B/C output cho cùng một câu hỏi;
-- dễ đánh giá bằng golden set;
-- có thể đo trực tiếp sensitivity: level thay đổi thì style/depth phải thay đổi;
-- vẫn giữ grounding/factuality giống nhau giữa các level.
+**Product fit:**
+- User có nhu cầu thay đổi cách giải thích theo từng topic; selector cho user giữ quyền kiểm soát mà không để model suy đoán trình độ.
 
-**Số liệu hỗ trợ quyết định:**
+**Cost-of-error:**
+- User tự chọn level tốt hơn để model suy đoán level khi chưa có evidence accuracy; nếu chọn sai, user tự sửa được ngay.
 
-Mining tìm thấy **744/10.427 lượt không phải preset (7,14%)** có tín hiệu yêu cầu thay đổi cách giải thích. CP3 sau đó xác nhận selector tạo khác biệt có ý nghĩa ở **6/6 bộ ba** và đạt Level Fit ở **18/18 case adaptation**. Pilot survey hiện có `n = 4` và **chưa đạt chuẩn Evidence A**; quyết định MVP hiện chủ yếu dựa trên **Evidence B — mining dữ liệu VLearn** (chi tiết phương pháp tại `evidence/mining-vlearn.md`).
+**Scope (gọn hơn B, C):**
+- Không cần learner profile, không cần history inference, không cần diagnostic pipeline, không cần classifier.
+
+**Testability:**
+- Chạy cùng question/context ở 3 level và đo trực tiếp sensitivity + level fit.
+- Eval hiện có 18 adaptation cases (6 câu thật × 3 mức) với Level Fit + Sensitivity.
+
+**Diễn giải kết quả eval:** các số CP3 chứng minh implementation tạo được sự khác biệt giữa các level; **pain ban đầu vẫn được chứng minh từ mining**, không phải từ CP3.
+
+### 2.4. Tóm tắt quyết định
+
+Mining cho thấy 744/10.427 lượt không-preset có tín hiệu liên quan đến việc điều chỉnh cách giải thích. Trong bốn phương án, explicit selector là phương án duy nhất phòng mismatch **trước answer đầu tiên** mà không cần model suy đoán trình độ hay thêm một turn chẩn đoán bắt buộc. Post-answer controls (D) vẫn được giữ làm correction path nhưng không phải intervention chính. Vì vậy MVP chọn **explicit selector (primary) + secondary correction controls**.
 
 ---
 

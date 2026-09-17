@@ -37,7 +37,7 @@ Có thể dùng provider OpenAI-compatible khác hoặc Gemini; xem [hướng d�
 ## Luồng chính
 
 1. Học viên chọn mức giải thích.
-2. Frontend gửi `question` và `level` tới `POST /api/ask`; client tích hợp có thể gửi thêm `lessonContext`.
+2. Frontend gửi `question`, `level` và `lessonContext` (fixture demo trong `codebase/lesson-context.js`) tới `POST /api/ask`; client tích hợp có thể gửi `lessonContext` riêng của mình.
 3. Backend tạo prompt tương ứng và gọi model thật.
 4. Backend kiểm tra độ phủ, định dạng và bằng chứng; nếu bật review, model thực hiện thêm một lượt kiểm định.
 5. UI hiển thị câu trả lời, trạng thái kiểm định và kết quả đối chiếu câu hỏi với CSV nếu dữ liệu nội bộ có sẵn.
@@ -89,7 +89,7 @@ Chi tiết và nguyên nhân timeout: [báo cáo Run 02](eval/run02-glm-final.md
 
 ## Giới hạn đã biết
 
-- API đã nhận `lessonContext`, nhưng frontend demo chưa tự lấy nội dung bài học từ VLearn để truyền vào trường này.
+- Prototype hiện sử dụng lesson-context fixture của bài học demo (`codebase/lesson-context.js`). Chưa tích hợp việc tự động lấy source/context từ backend VLearn production.
 - Endpoint OpenAI-compatible không có Google Search grounding.
 - Reviewer JSON của DeepSeek không parse được ở 16/26 lượt CP3; lỗi reviewer phải được tách khỏi lỗi nội dung. Reviewer của GLM-5.3-Flash ở Run 02 cũng chỉ parse được 2 lượt trong số lần được gọi.
 - Độ trễ trung bình CP3 còn cao cho trải nghiệm hội thoại; GLM-5.3-Flash ở Run 02 còn chậm hơn (55,3 giây/lượt có output, 11/26 case timeout/502).
@@ -101,9 +101,12 @@ Chi tiết và nguyên nhân timeout: [báo cáo Run 02](eval/run02-glm-final.md
 .
 ├── spec.md                    # AI Spec hoàn chỉnh
 ├── TEAMMATES.md               # Thành viên nhóm
+├── evidence/                  # Phương pháp + kết quả mining (Evidence B)
+│   └── mining-vlearn.md
 ├── codebase/                  # Frontend, backend và unit test
 │   ├── index.html
 │   ├── script.js
+│   ├── lesson-context.js      # Fixture lesson context demo
 │   ├── server.js
 │   └── test/
 └── eval/

@@ -44,6 +44,10 @@ Gemini có thể bật Google Search grounding cho câu hỏi hiện thời, yê
 
 Người dùng cũng có thể nhập cấu hình endpoint trong giao diện. Cấu hình này lưu trong `localStorage` và được gửi tới backend khi gọi API; không được ghi vào mã nguồn.
 
+## Lesson context fixture (demo)
+
+Frontend gửi kèm `lessonContext` cho mỗi câu hỏi. MVP chưa tích hợp VLearn production nên context này là một fixture demo đặt tại `codebase/lesson-context.js`, gắn với bài học giả lập "Bài 16 · Mini Hackathon". Nội dung fixture rõ ràng là mock, không phải dữ liệu VLearn thật và không chứa dữ liệu học viên.
+
 ## Dữ liệu VLearn tùy chọn
 
 Nếu có quyền sử dụng data pack, đặt file tại:

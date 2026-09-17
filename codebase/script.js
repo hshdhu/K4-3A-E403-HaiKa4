@@ -486,6 +486,18 @@ function levelActionsMarkup(levelKey) {
   `).join("");
 }
 
+function lessonContextMarkup() {
+  const lesson = window.VlearnLessonContext?.DEMO_LESSON;
+  const label = lesson?.sourceLabel;
+  if (!label) return "";
+  return `
+    <div class="lesson-source-scope" aria-label="Phạm vi nguồn của câu trả lời">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 4.5 6v5.2c0 4.6 3.1 8.1 7.5 9.8 4.4-1.7 7.5-5.2 7.5-9.8V6z" /></svg>
+      <span>Nguồn: ${escapeHtml(label)}</span>
+    </div>
+  `;
+}
+
 function answerMarkup(response, levelKey) {
   const matches = Array.isArray(response.comparison?.matches) ? response.comparison.matches : [];
   const hasMatches = matches.length > 0;
@@ -500,6 +512,7 @@ function answerMarkup(response, levelKey) {
     ${assistantHeading(levelKey, response)}
     <div class="answer-card">
       <div class="answer-content">${renderMarkdown(response.answer)}</div>
+      ${lessonContextMarkup()}
       ${webSourcesMarkup(response)}
       ${response.comparison?.checked ? `
         <div class="grounding-row">
@@ -689,7 +702,13 @@ function buildProviderPayload() {
 
 function buildAskBody(question, levelKey) {
   const provider = buildProviderPayload();
-  return provider ? { question, level: levelKey, provider } : { question, level: levelKey };
+  const lessonApi = window.VlearnLessonContext;
+  if (lessonApi && typeof lessonApi.buildAskPayload === "function") {
+    return lessonApi.buildAskPayload(question, levelKey, provider);
+  }
+  const body = { question, level: levelKey };
+  if (provider) body.provider = provider;
+  return body;
 }
 
 function openSettings() {

@@ -33,6 +33,8 @@ const {
   tokenize
 } = require("../server");
 
+const lessonContext = require("../lesson-context");
+
 test("server tĩnh chỉ công khai asset frontend và không làm lộ file nội bộ", async (t) => {
   const server = createApp(createEmptyCorpus());
   await new Promise((resolve, reject) => {
@@ -524,4 +526,31 @@ test("resolveProvider ưu tiên cấu hình client và dùng default khi không 
 
   assert.equal(resolveProvider(undefined).type, defaultProviderConfig().type);
   assert.equal(resolveProvider({}).type, defaultProviderConfig().type);
+});
+
+test("frontend request body (buildAskPayload) gửi kèm lessonContext và provider tùy chọn", () => {
+  const body = lessonContext.buildAskPayload("RAG là gì?", "beginner");
+  assert.equal(body.question, "RAG là gì?");
+  assert.equal(body.level, "beginner");
+  assert.equal(typeof body.lessonContext, "string");
+  assert.ok(body.lessonContext.length > 0);
+  assert.equal("provider" in body, false);
+
+  const withProvider = lessonContext.buildAskPayload("RAG là gì?", "beginner", { type: "openai", model: "m" });
+  assert.deepEqual(withProvider.provider, { type: "openai", model: "m" });
+  assert.ok(withProvider.lessonContext.length > 0);
+});
+
+test("lesson context fixture chỉ là mock demo và không chứa dữ liệu VLearn nội bộ", () => {
+  assert.match(lessonContext.DEMO_LESSON.context, /fixture|demo|minh hoạ/i);
+  assert.doesNotMatch(lessonContext.DEMO_LESSON.context, /tutor_turns\.csv/i);
+  assert.equal(lessonContext.getCurrentSlideId(), "lesson-16-slide-01");
+  assert.ok(lessonContext.getLessonContextForSlide().length > 0);
+});
+
+test("prompt không đưa nội dung tutor_turns.csv vào câu trả lời", () => {
+  const prompt = buildGeminiPrompt("RAG là gì?", "beginner", {
+    lessonContext: "Nội dung bài học demo: RAG kết hợp truy xuất và sinh câu trả lời."
+  });
+  assert.doesNotMatch(prompt, /tutor_turns\.csv/i);
 });

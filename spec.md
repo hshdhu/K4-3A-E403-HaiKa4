@@ -102,7 +102,7 @@ flowchart TD
 
 ### 1.4. Evidence
 
-#### Evidence A — Mining dữ liệu VLearn
+#### Evidence B — Mining dữ liệu VLearn
 
 **Giả thuyết cần kiểm chứng:**
 
@@ -159,13 +159,15 @@ Trong dữ liệu hội thoại VLearn tồn tại những trường hợp học
 
 ---
 
-#### Evidence B — Khảo sát học viên
+#### Evidence A — Khảo sát học viên
+
+> **Trạng thái:** đây là khảo sát **pilot / exploratory survey, `n = 4`**, chỉ dùng làm tín hiệu tham khảo ban đầu. **Chưa đạt chuẩn Evidence A của rubric** vì chưa đủ ≥20 người ngoài nhóm. Repository hiện **không kèm log khảo sát thật** (danh sách câu hỏi + từng câu trả lời của người tham gia); nhóm chưa thêm người khảo sát và không tự sinh dữ liệu khảo sát.
 
 **Mục tiêu:** kiểm chứng việc câu trả lời không phù hợp với trình độ hiện tại có thực sự gây pain.
 
 **Đối tượng:** sinh viên/học viên ngoài nhóm đã từng sử dụng ChatGPT, Gemini, VLearn Tutor hoặc công cụ AI để học.
 
-**Số người khảo sát:** `n = 4`
+**Số người khảo sát (pilot):** `n = 4`
 
 **Các câu hỏi chính:**
 
@@ -184,6 +186,8 @@ Trong dữ liệu hội thoại VLearn tồn tại những trường hợp học
 - `% phải hỏi lại để điều chỉnh mức giải thích = 100%`
 - Trung bình số lượt hỏi lại = 2.25
 - `% muốn có cách chủ động thay đổi mức giải thích = 75%`
+
+> Các tỷ lệ trên chỉ mô tả 4 phản hồi pilot (mẫu nhỏ, không mang tính thống kê), không được dùng để suy diễn cho toàn bộ học viên.
 
 ---
 
@@ -253,7 +257,7 @@ Ba mức:
 
 **Số liệu hỗ trợ quyết định:**
 
-Mining tìm thấy **744/10.427 lượt không phải preset (7,14%)** có tín hiệu yêu cầu thay đổi cách giải thích. CP3 sau đó xác nhận selector tạo khác biệt có ý nghĩa ở **6/6 bộ ba** và đạt Level Fit ở **18/18 case adaptation**; evidence khảo sát vẫn để trống vì chưa có dữ liệu.
+Mining tìm thấy **744/10.427 lượt không phải preset (7,14%)** có tín hiệu yêu cầu thay đổi cách giải thích. CP3 sau đó xác nhận selector tạo khác biệt có ý nghĩa ở **6/6 bộ ba** và đạt Level Fit ở **18/18 case adaptation**. Pilot survey hiện có `n = 4` và **chưa đạt chuẩn Evidence A**; quyết định MVP hiện chủ yếu dựa trên **Evidence B — mining dữ liệu VLearn** (chi tiết phương pháp tại `evidence/mining-vlearn.md`).
 
 ---
 
@@ -400,13 +404,14 @@ MVP **KHÔNG**:
 - nút đổi level và regenerate.
 - CSV VLearn chỉ dùng để đối chiếu câu hỏi trùng/tương tự, không dùng làm câu trả lời.
 - API nhận `lessonContext` tùy chọn và yêu cầu model chỉ dùng nguồn này cho factual claim khi context được cung cấp.
+- Frontend gửi `lessonContext` (fixture demo của bài học hiện tại trong `codebase/lesson-context.js`) cùng `question` và `level` tới `/api/ask`; UI hiển thị rõ phạm vi nguồn đang dùng.
 
 **Phần chưa hoàn thiện hoặc đang mock:**
 
 - login/account;
 - danh sách khóa học;
 - backend VLearn thật;
-- tự động lấy `lessonContext`/source chunks từ VLearn thật và truyền từ frontend;
+- tự động lấy `lessonContext`/source chunks từ VLearn thật (hiện MVP dùng lesson-context fixture, chưa tích hợp backend VLearn production);
 - citation theo tài liệu bài học;
 - progress tracking;
 - database user;
@@ -465,7 +470,7 @@ Do đó MVP ưu tiên **user control + conditional generation**.
 | **G2 — Make clear how well the system can do** | Nếu source thiếu, Tutor nói rõ không đủ căn cứ thay vì cố tạo câu trả lời nâng cao. |
 | **G9 — Support efficient correction** | Có `Giải thích dễ hơn` và `Đào sâu hơn`; user đổi level mà không cần nhập lại câu hỏi. |
 | **G10 — Scope services when in doubt** | Câu hỏi thiếu context → hỏi lại; source không đủ → thu hẹp phạm vi. |
-| **G11 — Make clear why the system did what it did** | Response hiển thị level đang áp dụng và citation/source. |
+| **G11 — Make clear why the system did what it did** | Response hiển thị level đang áp dụng và source/context scope của bài học đang được sử dụng (citation theo đoạn/trang cụ thể chưa nằm trong MVP). |
 | **G17 — Provide global controls** | Selector level luôn hiện và user có thể thay đổi bất kỳ lúc nào trong phiên học. |
 
 ---
@@ -506,16 +511,16 @@ Question:
 Flow:
 
 1. System nhận `level = beginner`.
-2. Context có đủ nội dung.
+2. Context có đủ nội dung (lesson-context fixture của bài học hiện tại).
 3. Tutor tạo câu trả lời:
    - định nghĩa;
    - giải thích dễ hiểu;
    - ví dụ;
-   - citation.
+   - nêu rõ phạm vi nguồn đang dùng (source scope), không bịa ngoài nguồn.
 4. UI hiển thị:
    - `Đang giải thích ở mức: Mới làm quen`
    - response;
-   - source;
+   - `Nguồn: Nội dung bài học hiện tại` (source scope);
    - `Giải thích sâu hơn`.
 
 **Kết quả:** user hiểu khái niệm mà không cần tự prompt “explain like I’m a beginner”.
@@ -633,7 +638,7 @@ Không thay “softmax” bằng một từ đơn giản nhưng sai nghĩa.
 **PASS khi:**
 
 - claim chính có căn cứ trong context;
-- citation/source trỏ tới nội dung hỗ trợ claim;
+- claim chính được lesson context / source scope hiện tại hỗ trợ (MVP không có citation theo đoạn/trang cụ thể);
 - khi nguồn không đủ, AI báo thiếu thay vì bịa.
 
 ---
@@ -847,10 +852,10 @@ Trước lượt Final cần nâng timeout/lượt (hoặc giảm max token, t�
 
 | Thành viên | Vai trò chính | Deliverables |
 | --- | --- | --- |
-| **Tạ Văn Tuấn** | Nhóm trưởng | |
-| **Cao Văn Cường** | Thành viên | |
-| **Lê Văn Tài** | Thành viên | |
-| **Nguyễn Quang Huy** | Thành viên | |
+| **Tạ Văn Tuấn** | Nhóm trưởng | spec |
+| **Cao Văn Cường** | Thành viên | evidence |
+| **Lê Văn Tài** | Thành viên | code |
+| **Nguyễn Quang Huy** | Thành viên | demo |
 
 Tất cả thành viên cần hiểu:
 

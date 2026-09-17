@@ -1480,6 +1480,27 @@ a:focus-visible {
   font-weight: 600;
 }
 
+.lesson-source-scope {
+  display: flex;
+  align-items: flex-start;
+  gap: 7px;
+  padding: 9px 13px;
+  border-top: 1px solid #eee9eb;
+  background: #fbfdfc;
+  color: #49715a;
+  font-size: 9px;
+  font-weight: 600;
+}
+
+.lesson-source-scope svg {
+  flex: 0 0 auto;
+  width: 14px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linejoin: round;
+}
+
 .web-sources {
   padding: 11px 13px;
   border-top: 1px solid #eee9eb;

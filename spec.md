@@ -422,7 +422,7 @@ MVP **KHÔNG**:
 
 - UI chọn 3 level;
 - input câu hỏi;
-- gọi model thật qua endpoint OpenAI-compatible với `deepseek-ai/DeepSeek-V4-Pro-0813`;
+- gọi model thật qua endpoint OpenAI-compatible với `deepseek-ai/DeepSeek-V4-Flash-0731`;
 - prompt thay đổi theo `learner_level`;
 - output câu trả lời;
 - nút đổi level và regenerate.
@@ -860,7 +860,7 @@ GLM-5.3-Flash qua endpoint hiện tại sinh chậm hơn nhiều so với DeepSe
 
 Trong 15 lượt có output, không có case nào sinh claim ngoài nguồn. `H-TRUTH-02` bị rule tự động cộng nhầm thành "no-evidence hallucination" chỉ vì câu trả lời nêu "hai nguồn mâu thuẫn, chưa đủ căn cứ kết luận" mà không dùng cụm "không loại bỏ hoàn toàn"; đọc thủ công là hành vi đúng. Vì vậy no-evidence hallucination chốt thủ công là **0**.
 
-Trước lượt Final cần nâng timeout/lượt (hoặc giảm max token, tắt reviewer với model chậm) và đo lại latency của GLM-5.3-Flash; nếu không, mọi số liệu chất lượng sẽ bị nhiễu bởi lỗi hạ tầng như ở Run 02 này.
+Trước Final, nhóm đã xác định cần nâng timeout/lượt (hoặc giảm max token, tắt reviewer với model chậm) để tránh nhiễu do latency như ở Run 02.
 
 **Tệp bằng chứng:**
 

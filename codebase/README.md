@@ -27,7 +27,7 @@ Frontend tự gọi API cùng origin nên vẫn hoạt động trên cổng mớ
 AI_PROVIDER=openai
 CUSTOM_BASE_URL=https://api.inference.wandb.ai/v1
 CUSTOM_API_KEY=<YOUR_API_KEY>
-CUSTOM_MODEL=deepseek-ai/DeepSeek-V4-Pro-0813
+CUSTOM_MODEL=deepseek-ai/DeepSeek-V4-Flash-0731
 ```
 
 Backend gọi `{CUSTOM_BASE_URL}/chat/completions`. Có thể thay bằng OpenAI, OpenRouter, Groq, Ollama hoặc provider tương thích khác.

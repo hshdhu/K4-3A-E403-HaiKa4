@@ -4,7 +4,7 @@ Prototype AI Tutor cho phép học viên chọn một trong ba mức giải thí
 
 > **Trạng thái trước khi nộp:** prototype Working, chạy model thật qua endpoint OpenAI-compatible (`deepseek-ai/DeepSeek-V4-Flash-0731`). Final Eval (lessonContext end-to-end) đạt **25/26 (96,2%)** và **quality bar PASS**. Xem [báo cáo Final](eval/final-run-final.md) và [AI Spec](spec.md).
 
-Sau CP3, các failure về lesson context, nguồn xung đột, câu hỏi mơ hồ và static-file exposure đã được sửa và khóa bằng 25 unit test. Run 02 (GLM-5.3-Flash) vướng 11/26 timeout/502 vì model quá chậm. Final Run với `deepseek-ai/DeepSeek-V4-Flash-0731` + lessonContext end-to-end đạt **25/26 (96,2%)** — quality bar **ĐẠT**, 0 timeout, 0 hallucination ngoài nguồn — xem [báo cáo Final](eval/final-run-final.md).
+Sau CP3, các failure về lesson context, nguồn xung đột, câu hỏi mơ hồ và static-file exposure đã được sửa và khóa bằng 28 unit tests. Run 02 (GLM-5.3-Flash) vướng 11/26 timeout/502 vì model quá chậm. Final Run với `deepseek-ai/DeepSeek-V4-Flash-0731` + lessonContext end-to-end đạt **25/26 (96,2%)** — quality bar **ĐẠT**, 0 timeout, 0 hallucination ngoài nguồn — xem [báo cáo Final](eval/final-run-final.md).
 
 ## Phân công nhóm
 

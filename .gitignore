@@ -1,0 +1,11 @@
+# Dữ liệu VLearn dùng nội bộ, không đưa lên repo công khai.
+/codebase/tutor_turns.csv
+/codebase/.env
+
+# Tệp sinh cục bộ.
+node_modules/
+__pycache__/
+*.py[cod]
+*.log
+.DS_Store
+Thumbs.db

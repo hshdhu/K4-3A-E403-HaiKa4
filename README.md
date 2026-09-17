@@ -2,9 +2,18 @@
 
 Prototype AI Tutor cho phép học viên chọn một trong ba mức giải thích — **Mới làm quen**, **Đã có nền tảng** và **Muốn đào sâu** — trước khi đặt câu hỏi.
 
-> **Trạng thái trước khi nộp:** prototype chạy thật với DeepSeek qua endpoint OpenAI-compatible. Batch CP3 đạt thủ công 22/26 case (84,6%) nhưng **chưa đạt quality bar đã khóa** vì Factuality 88,5% và còn hai case sinh claim ngoài nguồn. Xem [báo cáo CP3](eval/cp3-spec-deepseek-final.md) và [AI Spec](spec.md).
+> **Trạng thái trước khi nộp:** prototype Working, chạy model thật qua endpoint OpenAI-compatible (`deepseek-ai/DeepSeek-V4-Flash-0731`). Final Eval (lessonContext end-to-end) đạt **25/26 (96,2%)** và **quality bar PASS**. Xem [báo cáo Final](eval/final-run-final.md) và [AI Spec](spec.md).
 
 Sau CP3, các failure về lesson context, nguồn xung đột, câu hỏi mơ hồ và static-file exposure đã được sửa và khóa bằng 25 unit test. Run 02 (GLM-5.3-Flash) vướng 11/26 timeout/502 vì model quá chậm. Final Run với `deepseek-ai/DeepSeek-V4-Flash-0731` + lessonContext end-to-end đạt **25/26 (96,2%)** — quality bar **ĐẠT**, 0 timeout, 0 hallucination ngoài nguồn — xem [báo cáo Final](eval/final-run-final.md).
+
+## Phân công nhóm
+
+| Thành viên | Vai trò chính | Deliverables |
+| --- | --- | --- |
+| **Tạ Văn Tuấn** | Nhóm trưởng | spec |
+| **Cao Văn Cường** | Thành viên | evidence |
+| **Lê Văn Tài** | Thành viên | code |
+| **Nguyễn Quang Huy** | Thành viên | demo |
 
 ## Chạy nhanh
 
@@ -29,7 +38,7 @@ Mở <http://localhost:8090>.
 AI_PROVIDER=openai
 CUSTOM_BASE_URL=https://api.inference.wandb.ai/v1
 CUSTOM_API_KEY=<YOUR_API_KEY>
-CUSTOM_MODEL=deepseek-ai/DeepSeek-V4-Pro-0813
+CUSTOM_MODEL=deepseek-ai/DeepSeek-V4-Flash-0731
 ```
 
 Có thể dùng provider OpenAI-compatible khác hoặc Gemini; xem [hướng dẫn kỹ thuật](codebase/README.md). Không commit API key.
@@ -103,11 +112,12 @@ Quality bar: **ĐẠT**. Chi tiết: [báo cáo Final](eval/final-run-final.md).
 
 ## Giới hạn đã biết
 
-- Prototype hiện sử dụng lesson-context fixture của bài học demo (`codebase/lesson-context.js`). Chưa tích hợp việc tự động lấy source/context từ backend VLearn production.
+- `lessonContext` hiện là fixture demo của bài học (`codebase/lesson-context.js`); chưa tích hợp tự động lấy source/context từ backend VLearn production.
+- Chưa có citation theo đoạn/trang cụ thể; UI chỉ hiển thị source scope của bài học.
+- Khảo sát (Evidence A) hiện là pilot `n=4`, chưa đạt chuẩn Evidence A; repo chưa có log khảo sát ≥20 người ngoài nhóm.
+- Chưa có log user validation thật từ willing users (xem `spec.md` §8.2).
 - Endpoint OpenAI-compatible không có Google Search grounding.
-- Reviewer JSON của DeepSeek không parse được ở 16/26 lượt CP3; lỗi reviewer phải được tách khỏi lỗi nội dung. Reviewer của GLM-5.3-Flash ở Run 02 cũng chỉ parse được 2 lượt trong số lần được gọi.
-- Độ trễ trung bình CP3 còn cao cho trải nghiệm hội thoại; GLM-5.3-Flash ở Run 02 còn chậm hơn (55,3 giây/lượt có output, 11/26 case timeout/502).
-- Quote/log khảo sát, screenshot nghiên cứu, phân công chi tiết và kết quả user validation vẫn cần nhóm bổ sung bằng bằng chứng thật; lượt Final cần cấu hình lại timeout/token trước khi chạy lại với GLM.
+- Reviewer JSON từ mô hình parse không ổn định (16/26 lượt ở CP3); Final Eval đã tắt reviewer để tránh latency và lỗi parse này.
 
 ## Cấu trúc repository
 

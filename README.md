@@ -4,7 +4,7 @@ Prototype AI Tutor cho phép học viên chọn một trong ba mức giải thí
 
 > **Trạng thái trước khi nộp:** prototype chạy thật với DeepSeek qua endpoint OpenAI-compatible. Batch CP3 đạt thủ công 22/26 case (84,6%) nhưng **chưa đạt quality bar đã khóa** vì Factuality 88,5% và còn hai case sinh claim ngoài nguồn. Xem [báo cáo CP3](eval/cp3-spec-deepseek-final.md) và [AI Spec](spec.md).
 
-Sau CP3, các failure về lesson context, nguồn xung đột, câu hỏi mơ hồ và static-file exposure đã được sửa và khóa bằng 25 unit test. Run 02 đã chạy lại full 26 case bằng model `zai-org/GLM-5.3-Flash`: 15/26 có câu trả lời và 15/15 đạt nội dung, nhưng 11/26 bị timeout/502 do model quá chậm với cấu hình hiện tại — xem [báo cáo Run 02](eval/run02-glm-final.md).
+Sau CP3, các failure về lesson context, nguồn xung đột, câu hỏi mơ hồ và static-file exposure đã được sửa và khóa bằng 25 unit test. Run 02 (GLM-5.3-Flash) vướng 11/26 timeout/502 vì model quá chậm. Final Run với `deepseek-ai/DeepSeek-V4-Flash-0731` + lessonContext end-to-end đạt **25/26 (96,2%)** — quality bar **ĐẠT**, 0 timeout, 0 hallucination ngoài nguồn — xem [báo cáo Final](eval/final-run-final.md).
 
 ## Chạy nhanh
 
@@ -86,6 +86,20 @@ Run 02 chạy lại bằng `zai-org/GLM-5.3-Flash`:
 | Độ trễ trung bình (15 lượt 200) | 55,3 giây |
 
 Chi tiết và nguyên nhân timeout: [báo cáo Run 02](eval/run02-glm-final.md).
+
+Final Run (lessonContext end-to-end, `deepseek-ai/DeepSeek-V4-Flash-0731`, reviewer tắt):
+
+| Chỉ số Final | Kết quả |
+|---|---:|
+| HTTP 200 | 26/26 |
+| Tự động | 23/26 (88,5%) |
+| Chấm thủ công | 25/26 (96,2%) |
+| Factuality | 96,2% |
+| Level Fit | 17/18 (94,4%) |
+| No-evidence hallucination | 0 |
+| Độ trễ trung bình | 19,7 giây |
+
+Quality bar: **ĐẠT**. Chi tiết: [báo cáo Final](eval/final-run-final.md).
 
 ## Giới hạn đã biết
 

@@ -1,6 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { contextForTopic } from "./lesson-context-fixtures.mjs";
 
 const API_URL = process.env.CP3_API_URL || "http://localhost:8090/api/ask";
 const OUTPUT_DIR = path.dirname(fileURLToPath(import.meta.url));
@@ -80,6 +81,7 @@ const cases = normalQuestions.flatMap((item) => levels.map((level) => ({
   level,
   question: item.question,
   groups: item.groups,
+  lessonContext: contextForTopic(item.topic),
 }))).concat([
   {
     id: "H-TRUTH-01",

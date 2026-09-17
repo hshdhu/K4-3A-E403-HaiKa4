@@ -822,19 +822,23 @@ Nếu evaluator thường xuyên không phân biệt được ba output, prompt 
 
 ### 7.6. Kết quả các lượt chạy
 
-Kết quả dưới đây ghi lại hai lượt chạy thật, mỗi case đúng một lần: **Run 01 (CP3 — DeepSeek)** và **Run 02 (GLM-5.3-Flash)**. Số chốt được đọc thủ công từ toàn bộ output; số tự động (Run 01 ban đầu 7/26; Run 02 5/26) không được dùng thay cho kết quả chấm nội dung vì reviewer không trả JSON parse được ở nhiều lượt và vì ở Run 02 một phần lớn lượt bị timeout/502.
+Kết quả dưới đây ghi lại ba lượt chạy thật, mỗi case đúng một lần: **Run 01 (CP3 — DeepSeek)**, **Run 02 (GLM-5.3-Flash)** và **Final (DeepSeek-V4-Flash + lessonContext)**. Số chốt được đọc thủ công từ toàn bộ output; số tự động (Run 01 ban đầu 7/26; Run 02 5/26; Final tự động 23/26) không được dùng thay cho kết quả chấm nội dung vì reviewer/rule keyword có false negative.
 
 | Run | Ngày | Tổng case | PASS | Overall | Factuality | Level Fit | No-evidence hallucination |
 | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: |
 | CP3 — DeepSeek | 17/09/2026 | 26 | 22 | 84,6% | 88,5% | 100% (18/18) | 2 |
 | Run 02 — GLM-5.3-Flash | 17/09/2026 | 26 | 15 | 57,7% | 100% (15/15†) | 100% (8/8†) | 0 |
-| Final | | 26 | | | | | |
+| Final — DeepSeek-V4-Flash | 17/09/2026 | 26 | 25 | 96,2% | 96,2% | 94,4% (17/18) | 0 |
 
 > Trong bảng trên, giá trị có † được tính trên số lượt có câu trả lời. Ở Run 02, 11/26 case không tạo được output (9 timeout ở client 120 giây + 2 server 502 sau khi hết retry) nên không có nội dung để chấm Factuality/Level Fit; các case này được tính là chưa đạt ở cột Overall. Số tự động báo 1 no-evidence hallucination là dương tính giả của rule keyword ở `H-TRUTH-02` (đọc thủ công: 0).
 
 **Chỉ số bổ sung Run 01 (CP3 — DeepSeek):** HTTP 200 **26/26**; sensitivity **6/6** bộ ba; grounding hard case **1/4**; latency trung bình **62,9 giây**. Quality bar tổng thể **chưa đạt** vì Factuality dưới 90% và có 2 no-evidence hallucination.
 
 **Chỉ số bổ sung Run 02 (GLM-5.3-Flash):** HTTP 200 **15/26**; timeout client 120 giây **9/26**; server 502 **2/26**; sensitivity **1/6** bộ ba (chỉ bộ ba function-calling đo được đủ 3/3); grounding hard case **3/4** tự động (4/4 thủ công); latency trung bình trên 15 lượt HTTP 200 **55,3 giây**, cao nhất 106,7 giây. Quality bar tổng thể **chưa đạt** — điểm nghẽn là hạ tầng/latency, không phải chất lượng nội dung.
+
+**Chỉ số bổ sung Final (DeepSeek-V4-Flash + lessonContext end-to-end):** HTTP 200 **26/26** (0 timeout, 0 server lỗi); sensitivity **6/6** bộ ba; grounding hard case **4/4** thủ công (3/4 tự động); latency trung bình **19,7 giây** (median 14,0 giây, max 64,4 giây); reviewer **tắt** (đã ghi rõ). Tự động **23/26 (88,5%)**; chấm thủ công **25/26 (96,2%)**, gồm 2 override có lý do (`N-failure-modes-beginner` và `H-TRUTH-02` là false negative của rule keyword) và 1 fail thật (`N-rag-beginner` bị cắt cụt). Quality bar tổng thể **ĐẠT**. Chi tiết: `eval/final-run-final.md`.
+
+Chấm thủ công Final dùng đúng quality criteria và quality bar đã khóa trong spec (§7.1/§7.3); automated evaluation chỉ là công cụ hỗ trợ; raw output không bị sửa; mỗi override đều có lý do audit riêng (`N-failure-modes-beginner` keyword false-negative, `H-TRUTH-02` regex false-negative); quality bar và các run lịch sử không thay đổi.
 
 **Failure lớn nhất Run 01:**
 
@@ -867,6 +871,10 @@ Trước lượt Final cần nâng timeout/lượt (hoặc giảm max token, t�
 - `eval/run02-glm-results.json`
 - `eval/run02-glm-summary.md`
 - `eval/run02-glm-final.md`
+- `eval/lesson-context-fixtures.mjs`
+- `eval/final-run-results.json`
+- `eval/final-run-summary.md`
+- `eval/final-run-final.md`
 
 ---
 

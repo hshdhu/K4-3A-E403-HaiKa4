@@ -2,7 +2,7 @@
 
 ## 1. Vai trò của tôi
 
-Trong repo tôi khai vai trò Thành viên, phụ trách phần evidence (README và `spec.md` §8.1).
+Trong repo tôi khai vai trò Thành viên. Tôi tham gia kết hợp hai mảng: **evidence** (README và `spec.md` §8) và **code** — cụ thể tôi viết `gemini_tutor.py`. File này hiện chưa nằm trong git history của repo (chưa được commit), nên phần đóng góp code của tôi chưa thể hiện qua git log dưới tài khoản của tôi.
 
 ## 2. Phần tôi tham gia
 

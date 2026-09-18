@@ -1,0 +1,13 @@
+{
+  "name": "vlearn-adaptive-tutor",
+  "version": "1.0.0",
+  "private": true,
+  "description": "VLearn Adaptive Tutor với ba mức giải thích và hỗ trợ Gemini hoặc endpoint OpenAI-compatible.",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

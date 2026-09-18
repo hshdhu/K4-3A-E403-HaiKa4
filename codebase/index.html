@@ -1,0 +1,422 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Prototype Trợ giảng AI với ba mức độ giải thích phù hợp với nền tảng của người học."
+    />
+    <title>Trợ giảng AI · VLearn</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css?v=20260916-9" />
+    <script>
+      window.MathJax = {
+        tex: {
+          inlineMath: [["\\(", "\\)"], ["$", "$"]],
+          displayMath: [["\\[", "\\]"], ["$$", "$$"]],
+          processEscapes: true
+        },
+        options: {
+          skipHtmlTags: ["script", "noscript", "style", "textarea", "pre", "code"]
+        },
+        startup: {
+          typeset: false,
+          ready() {
+            window.MathJax.startup.defaultReady();
+            window.MathJax.startup.promise.then(() => {
+              window.dispatchEvent(new Event("mathjax-ready"));
+            });
+          }
+        }
+      };
+    </script>
+    <script defer src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js"></script>
+  </head>
+  <body>
+    <div class="learning-app" id="learningApp">
+      <header class="course-header">
+        <div class="course-identity">
+          <button class="course-back" type="button" aria-label="Quay lại">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6M9 12h11" /></svg>
+          </button>
+          <div>
+            <strong>Bài 16 · MINI HACKATHON</strong>
+            <small>AI IN ACTION · VLEARN</small>
+          </div>
+        </div>
+
+        <div class="course-progress" aria-label="Tiến độ bài học: 0 trên 8">
+          <strong>0/8 bài</strong>
+          <span><i></i></span>
+        </div>
+
+        <div class="course-actions">
+          <button class="ask-ai-button" type="button" data-action="open-tutor">
+            <span class="mini-spark" aria-hidden="true"></span>
+            Đặt câu hỏi với AI
+          </button>
+          <button class="request-button" type="button">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 11V5a1.5 1.5 0 0 1 3 0v5-6a1.5 1.5 0 0 1 3 0v6-5a1.5 1.5 0 0 1 3 0v7-4a1.5 1.5 0 0 1 3 0v5c0 4.4-3.6 8-8 8h-1c-2.5 0-4.9-1.2-6.4-3.2L2 14.5A1.8 1.8 0 0 1 4.8 12l2.3 2.3" /></svg>
+            Gửi yêu cầu
+          </button>
+          <button class="user-avatar" type="button" aria-label="Tài khoản của Tài">T</button>
+        </div>
+      </header>
+
+      <div class="learning-layout">
+        <nav class="lesson-rail" aria-label="Điều hướng bài học">
+          <button class="rail-button" type="button" aria-label="Mở mục lục">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 7h14M5 12h14M5 17h14" /></svg>
+          </button>
+          <div class="rail-spacer"></div>
+          <button class="rail-button" type="button" aria-label="Ghi chú">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h14v16H5zM8 8h8M8 12h8M8 16h5" /></svg>
+          </button>
+          <button class="rail-button" type="button" aria-label="Toàn màn hình">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 4H4v4M16 4h4v4M20 16v4h-4M4 16v4h4" /></svg>
+          </button>
+        </nav>
+
+        <main class="lesson-workspace">
+          <div class="lesson-toolbar">
+            <div>
+              <span class="lesson-breadcrumb">BÀI 16 / SLIDE 01</span>
+              <strong>Nội dung bài giảng</strong>
+            </div>
+            <div class="slide-tools">
+              <button type="button" aria-label="Thu nhỏ slide">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14" /></svg>
+              </button>
+              <span>100%</span>
+              <button type="button" aria-label="Phóng to slide">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M12 5v14" /></svg>
+              </button>
+              <button type="button" aria-label="Toàn màn hình slide">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 4H4v4M16 4h4v4M20 16v4h-4M4 16v4h4" /></svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="slide-viewport">
+            <section class="slide-canvas" aria-label="Khu vực nội dung slide">
+              <div class="slide-accent slide-accent-one"></div>
+              <div class="slide-accent slide-accent-two"></div>
+              <div class="slide-number">01</div>
+              <div class="slide-placeholder-copy">
+                <span class="slide-label">MINI HACKATHON · BÀI GIẢNG</span>
+                <h1>Không gian nội dung<br />slide của bạn</h1>
+                <p>
+                  Phần bên trái và trung tâm được dành riêng để hiển thị slide, tài liệu
+                  hoặc nội dung bài học sau này.
+                </p>
+                <div class="slide-divider"></div>
+                <div class="slide-points">
+                  <span><i>01</i>Nội dung chính</span>
+                  <span><i>02</i>Ví dụ minh họa</span>
+                  <span><i>03</i>Ghi chú bài giảng</span>
+                </div>
+              </div>
+              <div class="slide-visual" aria-hidden="true">
+                <div class="visual-orbit orbit-one"></div>
+                <div class="visual-orbit orbit-two"></div>
+                <div class="visual-core">
+                  <span class="spark spark-small"></span>
+                  <span class="spark spark-large"></span>
+                </div>
+                <div class="visual-card card-one"><span></span><span></span><span></span></div>
+                <div class="visual-card card-two"><i></i><i></i><i></i></div>
+              </div>
+            </section>
+
+            <div class="slide-navigation">
+              <button type="button" disabled aria-label="Slide trước">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6" /></svg>
+              </button>
+              <span><strong>1</strong> / 8</span>
+              <button type="button" aria-label="Slide tiếp theo">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6" /></svg>
+              </button>
+            </div>
+          </div>
+        </main>
+
+        <aside class="ai-sidebar" id="tutorSidebar" aria-label="Panel Trợ giảng AI">
+          <section class="tutor-panel" aria-label="Trợ giảng AI">
+        <header class="topbar">
+          <a class="brand" href="#" aria-label="Trang chủ Trợ giảng AI">
+            <span class="brand-mark" aria-hidden="true">
+              <span class="spark spark-small"></span>
+              <span class="spark spark-large"></span>
+            </span>
+            <span class="brand-copy">
+              <strong>Trợ giảng AI</strong>
+              <small>VLearn adaptive tutor</small>
+            </span>
+          </a>
+
+          <nav class="top-actions" aria-label="Thao tác nhanh">
+            <div class="corpus-status" id="corpusStatus" title="Đang kết nối với dữ liệu">
+              <span class="status-dot" aria-hidden="true"></span>
+              <span class="status-copy">
+                <strong id="corpusStatusLabel">Đang nạp dữ liệu</strong>
+                <small id="corpusCount">Vui lòng chờ…</small>
+              </span>
+            </div>
+            <button class="icon-button" type="button" data-action="open-settings" aria-label="Cài đặt model AI">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M12 15.5A3.5 3.5 0 1 0 12 8.5a3.5 3.5 0 0 0 0 7Z"/>
+                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33h.01a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51h.01a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82v.01a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1Z"/>
+              </svg>
+            </button>
+            <button class="new-chat" type="button" data-action="new-chat">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M12 5v14M5 12h14" />
+              </svg>
+              <span>Chat mới</span>
+            </button>
+            <button class="icon-button" type="button" aria-label="Lịch sử trò chuyện">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M3 12a9 9 0 1 0 3-6.7L3 8" />
+                <path d="M3 3v5h5M12 7v5l3 2" />
+              </svg>
+            </button>
+            <button class="icon-button desktop-only" type="button" data-action="close-tutor" aria-label="Thu nhỏ cửa sổ">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <rect x="4" y="4" width="16" height="16" rx="2" />
+                <path d="M4 16h16" />
+              </svg>
+            </button>
+            <button class="icon-button" type="button" data-action="close-tutor" aria-label="Đóng cửa sổ">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="m6 6 12 12M18 6 6 18" />
+              </svg>
+            </button>
+          </nav>
+        </header>
+
+        <div class="conversation" id="conversation" aria-live="polite">
+          <div class="welcome-state" id="welcomeState">
+            <div class="welcome-icon" aria-hidden="true">
+              <span class="spark spark-small"></span>
+              <span class="spark spark-large"></span>
+            </div>
+            <p class="eyebrow">HỌC ĐÚNG CÁCH CỦA BẠN</p>
+            <h1>Bạn muốn tìm hiểu điều gì hôm nay?</h1>
+            <p>
+              Đặt câu hỏi học tập và chọn mức kiến thức hiện tại.<br class="wide-break" />
+              Trợ giảng sẽ điều chỉnh cách giải thích theo nhu cầu của bạn.
+            </p>
+
+            <div class="data-highlights" aria-label="Thông tin dữ liệu">
+              <span>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6c0-1.1 3.6-2 8-2s8 .9 8 2-3.6 2-8 2-8-.9-8-2Zm0 0v6c0 1.1 3.6 2 8 2s8-.9 8-2V6M4 12v6c0 1.1 3.6 2 8 2s8-.9 8-2v-6" /></svg>
+                Đối chiếu VLearn tùy chọn
+              </span>
+              <span>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 4.5 6v5.2c0 4.6 3.1 8.1 7.5 9.8 4.4-1.7 7.5-5.2 7.5-9.8V6zM8.5 12l2.2 2.2 4.8-5" /></svg>
+                Kiểm tra chất lượng đầu ra
+              </span>
+              <span>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 18v-4M12 18V9M19 18V5" /></svg>
+                3 mức giải thích
+              </span>
+            </div>
+
+            <div class="suggestions" aria-label="Câu hỏi gợi ý">
+              <button type="button" data-question="Transformer hoạt động như thế nào?">
+                <span class="suggestion-icon">01</span>
+                <span><small>LLM Foundation</small>Transformer hoạt động như thế nào?</span>
+              </button>
+              <button type="button" data-question="Monitoring và logging khác nhau thế nào?">
+                <span class="suggestion-icon">02</span>
+                <span><small>Observability</small>Monitoring khác logging thế nào?</span>
+              </button>
+              <button type="button" data-question="Cách xác định bài toán kinh doanh cho AI">
+                <span class="suggestion-icon">03</span>
+                <span><small>Business problem</small>Xác định bài toán AI ra sao?</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="chat-thread" id="chatThread" hidden></div>
+        </div>
+
+        <footer class="composer-wrap">
+          <div class="level-area">
+            <button
+              class="level-trigger"
+              id="levelTrigger"
+              type="button"
+              aria-haspopup="listbox"
+              aria-expanded="false"
+              aria-controls="levelMenu"
+            >
+              <span class="level-icon" id="levelIcon" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <path d="M5 18v-4M12 18V9M19 18V5" />
+                </svg>
+              </span>
+              <span class="level-trigger-copy">
+                <span class="level-kicker">Mức độ giảng bài</span>
+                <strong id="selectedLevelLabel">Đã có nền tảng</strong>
+              </span>
+              <svg class="chevron" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="m7 10 5 5 5-5" />
+              </svg>
+            </button>
+
+            <div class="level-menu" id="levelMenu" role="listbox" aria-label="Chọn mức độ giảng bài" hidden>
+              <div class="menu-heading">
+                <div>
+                  <strong>Bạn đang ở mức nào?</strong>
+                  <span>Có thể thay đổi bất cứ lúc nào</span>
+                </div>
+                <button class="menu-close" type="button" data-action="close-level" aria-label="Đóng">
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="m7 7 10 10M17 7 7 17" />
+                  </svg>
+                </button>
+              </div>
+
+              <button class="level-option" type="button" role="option" data-level="beginner" aria-selected="false">
+                <span class="option-icon beginner" aria-hidden="true">
+                  <svg viewBox="0 0 24 24">
+                    <path d="M12 20v-9M8 14c-2.6 0-4-1.5-4-4 2.8 0 5 .4 6.4 2.8M16 10c2.6 0 4-1.5 4-4-3.2 0-5.6.6-7 3.5" />
+                  </svg>
+                </span>
+                <span class="option-copy">
+                  <strong>Mới làm quen</strong>
+                  <small>Giải thích từ cơ bản, từ ngữ dễ hiểu và có ví dụ cụ thể.</small>
+                </span>
+                <span class="option-check" aria-hidden="true">
+                  <svg viewBox="0 0 24 24"><path d="m6.5 12.5 3.5 3.5 7.5-8" /></svg>
+                </span>
+              </button>
+
+              <button class="level-option selected" type="button" role="option" data-level="intermediate" aria-selected="true">
+                <span class="option-icon intermediate" aria-hidden="true">
+                  <svg viewBox="0 0 24 24">
+                    <path d="M5 18v-4M12 18V9M19 18V5" />
+                  </svg>
+                </span>
+                <span class="option-copy">
+                  <strong>Đã có nền tảng</strong>
+                  <small>Đi thẳng vào ý chính và giải thích kỹ những phần khó.</small>
+                </span>
+                <span class="option-check" aria-hidden="true">
+                  <svg viewBox="0 0 24 24"><path d="m6.5 12.5 3.5 3.5 7.5-8" /></svg>
+                </span>
+              </button>
+
+              <button class="level-option" type="button" role="option" data-level="advanced" aria-selected="false">
+                <span class="option-icon advanced" aria-hidden="true">
+                  <svg viewBox="0 0 24 24">
+                    <path d="m12 3 1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8L12 3Z" />
+                    <path d="m18.5 15 .7 2.3 2.3.7-2.3.7-.7 2.3-.7-2.3-2.3-.7 2.3-.7.7-2.3Z" />
+                  </svg>
+                </span>
+                <span class="option-copy">
+                  <strong>Muốn đào sâu</strong>
+                  <small>Phân tích cơ chế, điều kiện, mối quan hệ và trade-off.</small>
+                </span>
+                <span class="option-check" aria-hidden="true">
+                  <svg viewBox="0 0 24 24"><path d="m6.5 12.5 3.5 3.5 7.5-8" /></svg>
+                </span>
+              </button>
+
+              <p class="menu-note">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <circle cx="12" cy="12" r="9" />
+                  <path d="M12 11v5M12 8h.01" />
+                </svg>
+                Mức độ chỉ thay đổi cách giải thích, không thay đổi độ chính xác.
+              </p>
+            </div>
+          </div>
+
+          <form class="composer" id="questionForm">
+            <label class="sr-only" for="questionInput">Nhập câu hỏi</label>
+            <textarea
+              id="questionInput"
+              rows="1"
+              maxlength="500"
+              placeholder="Hỏi bất cứ điều gì..."
+              autocomplete="off"
+            ></textarea>
+            <button class="send-button" id="sendButton" type="submit" aria-label="Gửi câu hỏi" disabled>
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M12 19V5M6.5 10.5 12 5l5.5 5.5" />
+              </svg>
+            </button>
+          </form>
+          <div class="composer-footnote">
+            <span>Enter để gửi · Shift + Enter để xuống dòng</span>
+            <span>Trợ giảng có thể sai — hãy đối chiếu nguồn.</span>
+          </div>
+        </footer>
+          </section>
+        </aside>
+      </div>
+    </div>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <div class="settings-overlay" id="settingsOverlay" hidden>
+      <div class="settings-modal" role="dialog" aria-modal="true" aria-labelledby="settingsTitle">
+        <div class="settings-head">
+          <div>
+            <strong id="settingsTitle">Cài đặt model AI</strong>
+            <small>Chọn Gemini mặc định hoặc endpoint tuỳ chỉnh (OpenAI-compatible).</small>
+          </div>
+          <button class="icon-button" type="button" data-action="close-settings" aria-label="Đóng cài đặt">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg>
+          </button>
+        </div>
+
+        <div class="settings-body">
+          <div class="settings-field">
+            <span class="settings-label">Nhà cung cấp</span>
+            <label class="settings-radio">
+              <input type="radio" name="providerType" value="gemini" checked />
+              <span>Gemini (dùng key trong file .env)</span>
+            </label>
+            <label class="settings-radio">
+              <input type="radio" name="providerType" value="openai" />
+              <span>Endpoint tuỳ chỉnh (OpenAI-compatible)</span>
+            </label>
+          </div>
+
+          <div class="settings-field" id="customFields" hidden>
+            <label class="settings-field-label" for="baseUrlInput">Base URL</label>
+            <input type="text" id="baseUrlInput" placeholder="https://api.openai.com/v1" autocomplete="off" spellcheck="false" />
+            <span class="settings-hint">Hỗ trợ mọi provider dùng API kiểu OpenAI: OpenAI, OpenRouter, Groq, DeepSeek, Ollama… Bỏ trống để dùng https://api.openai.com/v1.</span>
+
+            <label class="settings-field-label" for="apiKeyInput">API key</label>
+            <input type="password" id="apiKeyInput" placeholder="sk-..." autocomplete="off" spellcheck="false" />
+
+            <label class="settings-field-label" for="modelInput">Model ID</label>
+            <input type="text" id="modelInput" placeholder="gpt-4o-mini" autocomplete="off" spellcheck="false" />
+          </div>
+
+          <p class="settings-note">
+            Thông tin chỉ được lưu trong trình duyệt (localStorage) và gửi tới backend khi bạn đặt câu hỏi. Không ghi API key vào mã nguồn hay file .env.
+          </p>
+        </div>
+
+        <div class="settings-actions">
+          <button class="settings-button secondary" type="button" data-action="test-connection">Kiểm tra kết nối</button>
+          <button class="settings-button secondary" type="button" data-action="close-settings">Hủy</button>
+          <button class="settings-button primary" type="button" data-action="save-settings">Lưu cài đặt</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="lesson-context.js"></script>
+    <script src="script.js?v=20260916-10"></script>
+  </body>
+</html>

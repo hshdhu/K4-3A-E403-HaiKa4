@@ -1,29 +1,36 @@
-# Reflection — Nguyễn Quang Huy (demo)
+﻿# Reflection — Nguyễn Quang Huy (demo)
 
 ## 1. Vai trò của tôi
 
-Trong repo tôi khai vai trò Thành viên, phụ trách phần demo (README và `spec.md` §8.1).
+Tôi là thành viên nhóm HaiKa4, phụ trách phần demo của dự án VLearn Adaptive Tutor. Mục tiêu của phần trình bày là giúp người xem hiểu vấn đề mà nhóm giải quyết: cùng một khái niệm, học viên có nền tảng khác nhau sẽ cần cách giải thích khác nhau.
+
+Với vai trò này, tôi cần nắm được luồng sử dụng, sự khác biệt giữa ba mức giải thích và những giới hạn của prototype để trình bày rõ ràng, đúng với khả năng hiện tại của sản phẩm.
 
 ## 2. Phần tôi tham gia
 
-Phần tôi có bằng chứng trong git là hai commit đầu dưới tài khoản `Nguyen Quang Huy`: commit khởi tạo repo (tạo README) và commit "add spec.md, readme.md, teammates.md" (thêm spec.md, TEAMMATES.md, sửa README).
+Phần việc của tôi tập trung vào xây dựng luồng trình diễn và cách giới thiệu tính năng. Tôi dựa vào nội dung đặc tả, hướng dẫn chạy trong thư mục `codebase/` và kết quả đánh giá trong thư mục `eval/` để tổ chức nội dung demo theo thứ tự: vấn đề của học viên, giải pháp của nhóm, thao tác trên prototype và bài học sau thử nghiệm.
 
-Về phần demo, repo có `demo-slides.pdf` nhưng file này đang untracked (không nằm trong commit history), còn `demo-slides-content.md` hiện không còn trong thư mục. Flow demo dự kiến: chạy prototype, chọn 3 level, gọi model thật, đổi level để regenerate. Cụ thể ai soạn slide/video thì tôi chưa xác minh được:
+Kịch bản demo dự kiến gồm:
 
-[CẦN THÀNH VIÊN XÁC NHẬN: phần demo trực tiếp thực hiện]
+1. Giới thiệu tình huống học viên nhận được câu trả lời quá khó hoặc quá cơ bản so với nhu cầu.
+2. Mở prototype và giới thiệu ba mức: **Mới làm quen**, **Đã có nền tảng**, **Muốn đào sâu**.
+3. Đặt một câu hỏi về nội dung bài học, chọn mức giải thích và chờ phản hồi từ model thật.
+4. Giữ nguyên câu hỏi, chuyển mức giải thích để so sánh cách trình bày, ví dụ và độ sâu kiến thức.
+5. Giải thích rằng thay đổi mức độ phải giữ được tính đúng đắn và bám vào nội dung bài học; mức nâng cao không có nghĩa là tự bổ sung thông tin ngoài nguồn.
+6. Kết thúc bằng kết quả thử nghiệm và các giới hạn còn lại của prototype.
+
+Khi chuẩn bị nội dung, tôi chú trọng làm rõ sự khác biệt giữa các mức bằng cách giải thích và độ sâu, thay vì chỉ so sánh độ dài câu trả lời. Tôi cũng cần nói rõ rằng ngữ cảnh bài học hiện là dữ liệu mẫu phục vụ demo, chưa được lấy tự động từ hệ thống VLearn thực tế.
 
 ## 3. AI đã hỗ trợ tôi như thế nào
 
-Ở mức workflow, AI hỗ trợ tôi soạn flow trình diễn và chỉnh wording cho slide/kịch bản demo.
+AI hỗ trợ tôi soạn luồng trình diễn, sắp xếp ý và chỉnh câu chữ cho slide, kịch bản demo. Nhờ đó, tôi có thể chuyển các nội dung kỹ thuật như mức giải thích, ngữ cảnh bài học và xử lý lỗi thành cách diễn đạt dễ hiểu hơn với người xem.
 
-AI hỗ trợ tạo nháp và kiểm tra; thành viên vẫn phải review kết quả, chạy test và chịu trách nhiệm với phần nộp. Nội dung demo cuối cùng tôi vẫn phải tự chạy thử và kiểm tra trước khi trình bày.
+Tuy nhiên, bản nháp do AI tạo ra vẫn cần được đối chiếu với prototype và tài liệu của nhóm. Tôi chịu trách nhiệm rà soát nội dung trình bày, tránh mô tả tính năng chưa có hoặc diễn giải kết quả thử nghiệm thành cam kết rằng hệ thống luôn trả lời đúng. Trước khi trình bày, tôi cần tự chạy thử toàn bộ kịch bản để kiểm tra thao tác và thời gian chờ.
 
 ## 4. Một bài học từ failure thật của nhóm
 
-Run 02 dùng `zai-org/GLM-5.3-Flash` bị 11/26 case timeout hoặc 502 (9 timeout client + 2 server 502) chỉ vì model sinh quá chậm. Với vai trò demo, điều này nhắc tôi phải luôn có backup: nếu model/network fail ngay lúc trình bày thì buổi demo hỏng. Giải pháp là chuẩn bị kịch bản offline, chọn trước model nhanh (DeepSeek như Final), quay sẵn video hoặc ghi sẵn câu trả lời mẫu.
+Trong Run 02, nhóm thử nghiệm với GLM-5.3-Flash và gặp 11/26 trường hợp không có câu trả lời do timeout hoặc lỗi 502. Việc gọi model, kiểm định và thử lại có thể kéo dài thời gian xử lý, khiến một luồng có nội dung trả lời tốt vẫn không đáp ứng được yêu cầu sử dụng thực tế.
 
-### Những điểm cần tôi xác nhận trước khi nộp
+Từ góc nhìn người phụ trách demo, tôi rút ra rằng chất lượng câu trả lời và độ ổn định khi trình diễn đều quan trọng. Tôi cần kiểm tra kết nối, cấu hình model và thời gian phản hồi trước buổi trình bày, đồng thời dành thời gian chờ hợp lý trong kịch bản.
 
-- [CẦN THÀNH VIÊN XÁC NHẬN: phần demo trực tiếp thực hiện] ai làm slide/video; có cần commit lại `demo-slides-content.md` không.
-- Xác nhận model dùng cho demo cuối (có phải `deepseek-ai/DeepSeek-V4-Flash-0731` không).
-- Xác nhận đã có video/screenshot demo hay chưa.
+Phương án dự phòng là chuẩn bị video hoặc câu trả lời mẫu để giải thích luồng hoạt động nếu kết nối gặp lỗi, đồng thời nói rõ khi đang sử dụng nội dung đã ghi sẵn. Bài học lớn nhất của tôi là một buổi demo tốt cần cho người xem hiểu cả giá trị của tính năng lẫn cách hệ thống ứng xử khi không hoạt động như mong đợi.
